@@ -55,7 +55,10 @@ Librairies
 adri_logger                     = https://github.com/AdriLighting/adri_logger
 adri_tools_v2                   = https://github.com/AdriLighting/adri_tools_v2
 
-esp8266/arduino                 = https://github.com/esp8266/Arduino/tree/master/libraries
+framework                       = https://github.com/esp8266/Arduino/tree/master/libraries
+ESP8266WiFi                     = 
+LittleFS(esp8266)               = 
+
 </details>
 Dependency Graph
 <details>
