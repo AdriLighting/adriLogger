@@ -842,6 +842,15 @@ switch (lvl) {
 }    
 
 if (pLine != "") {
+
+    int sizeMax = 90;
+    if (func == "") sizeMax = 35;
+    int size = pLine.length();
+    while (size<sizeMax){
+        pLine+=" ";
+        size = pLine.length();
+    }       
+
     if (pTag != "")     {
         String cr = "";
         int len = strlen(tag);
@@ -856,7 +865,7 @@ if (pLine != "") {
                 cr = "\n";
             }
             if (varP != "") {
-                fssprintf(adriLogger_buffer1, "[%-97s][%-20s]%s%s\t[%s]", 
+                fssprintf(adriLogger_buffer1, "[%s][%-25s]%s%s\t[%s]", 
                         pLine.c_str(), 
                         varP.c_str(),
                         title.c_str(), 
@@ -864,7 +873,7 @@ if (pLine != "") {
                         pTag.c_str()
                     );
             } else {
-                fssprintf(adriLogger_buffer1, "[%-97s]%s%s\t[%s]", 
+                fssprintf(adriLogger_buffer1, "[%s]%s%s\t[%s]", 
                         pLine.c_str(), 
                         title.c_str(), 
                         cr.c_str(),
@@ -872,15 +881,16 @@ if (pLine != "") {
                     );                    
             } 
         }  else {
-            if (varP != "") {
-                fssprintf(adriLogger_buffer1, "[%-97s][%-20s]%s[%s]", 
+            if (varP != "") {                 
+                fssprintf(adriLogger_buffer1, "[%s][%-25s]%s[%s]", 
                         pLine.c_str(), 
                         varP.c_str(),
                         title.c_str(), 
                         pTag.c_str()
                     ); 
             } else {
-                fssprintf(adriLogger_buffer1, "[%-97s]%s[%s]", 
+
+                fssprintf(adriLogger_buffer1, "[%s]%s[%s]", 
                         pLine.c_str(), 
                         title.c_str(), 
                         pTag.c_str()
@@ -888,8 +898,8 @@ if (pLine != "") {
             }
         }
     } else {
-        if (varP != "") {fssprintf(adriLogger_buffer1, "[%-97s][%-20s]%s", pLine.c_str(), varP.c_str(), title.c_str()); }
-        else {fssprintf(adriLogger_buffer1, "[%-97s]%s", pLine.c_str(), title.c_str()); }
+        if (varP != "") {fssprintf(adriLogger_buffer1, "[%s][%-25s]%s", pLine.c_str(), varP.c_str(), title.c_str()); }
+        else {fssprintf(adriLogger_buffer1, "[%s]%s", pLine.c_str(), title.c_str()); }
     }       
     
 }
@@ -909,7 +919,7 @@ else {
                 cr = "\n";
             }
             if (varP != "") {
-                fssprintf(adriLogger_buffer1, "[%-20s]%s%s\t[%s]", 
+                fssprintf(adriLogger_buffer1, "[%-25s]%s%s\t[%s]", 
                         varP.c_str(),
                         title.c_str(), 
                         cr.c_str(),
@@ -924,7 +934,7 @@ else {
             } 
         }  else {
             if (varP != "") {
-                fssprintf(adriLogger_buffer1, "[%-20s]%s[%s]", 
+                fssprintf(adriLogger_buffer1, "[%-25s]%s[%s]", 
                         varP.c_str(),
                         title.c_str(), 
                         pTag.c_str()
@@ -937,7 +947,7 @@ else {
             }
         }
     } else {
-        if (varP != "") {fssprintf(adriLogger_buffer1, "[%-20s]%s", varP.c_str(), title.c_str()); }
+        if (varP != "") {fssprintf(adriLogger_buffer1, "[%-25s]%s", varP.c_str(), title.c_str()); }
         else {fssprintf(adriLogger_buffer1, "%s",  title.c_str()); }
     } 
 }
