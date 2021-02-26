@@ -77,6 +77,12 @@
 #include "adri_logger.h"
 #include <adri_tools_v2.h>
 
+    #if defined(ESP8266)
+        #define FILESYSTEM LittleFS
+    #elif defined(ESP32)
+        #define FILESYSTEM SPIFFS
+    #else
+    #endif
 
 // region ################################################ color
 #define ADRITOOLSLOGGER_COLOR_BLACK "30"
@@ -844,7 +850,7 @@ switch (lvl) {
 if (pLine != "") {
 
     int sizeMax = 90;
-    if (func == "") sizeMax = 35;
+    if (mod == 1) sizeMax = 35;
     int size = pLine.length();
     while (size<sizeMax){
         pLine+=" ";
@@ -1019,7 +1025,7 @@ void adriToolsLogger::spiff_setup(){
 
     ADRI_LOG(-1, 0, 2,"","");
 
-    // Dir dir = LittleFS.openDir(spiff_folder);
+    // Dir dir = FILESYSTEM.openDir(spiff_folder);
 
     // int totalFile = 0;
     // while (dir.next()) {
@@ -1059,7 +1065,7 @@ void adriToolsLogger::spiff_get(String & ret){
 
     String lines = "";
 
-    File file = LittleFS.open(spiff_folder+"/"+spiff_fileName, "r");
+    File file = FILESYSTEM.open(spiff_folder+"/"+spiff_fileName, "r");
 
     if (file) {
         while (file.position()<file.size()) {
@@ -1087,7 +1093,7 @@ void adriToolsLogger::spiff_get(String & ret){
 void adriToolsLogger::spiff_addLine(String result){
     // String old;
     // spiff_get(old);
-    File file = LittleFS.open(spiff_folder+"/"+spiff_fileName, "a");
+    File file = FILESYSTEM.open(spiff_folder+"/"+spiff_fileName, "a");
     file.println(result);
     file.close();
 
@@ -1107,7 +1113,7 @@ void adriToolsLogger::spiff_readCurrent(){
     char buffer[512];
     String print = "";
     int nbr = 0;
-    File file = LittleFS.open(spiff_folder+"/"+spiff_fileName, "r");
+    File file = FILESYSTEM.open(spiff_folder+"/"+spiff_fileName, "r");
     if (file) {
         while (file.position()<file.size()) {
             String xml = file.readStringUntil('\n');
@@ -1133,7 +1139,7 @@ void adriToolsLogger::spiff_readCurrent(){
  *
  */
 void adriToolsLogger::spiff_removeCurrent(){
-    LittleFS.remove(spiff_folder+"/"+spiff_fileName);
+    FILESYSTEM.remove(spiff_folder+"/"+spiff_fileName);
 }
     
 // endregion >>>> SPIFF

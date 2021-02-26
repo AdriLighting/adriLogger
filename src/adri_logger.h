@@ -3,6 +3,12 @@
 	#define ADRI_LOGGER_H
 
 	#include <arduino.h>
+	#if defined(ESP8266)
+		#include <LittleFS.h>
+	#elif defined(ESP32)
+		#include <SPIFFS.h>
+	#else
+	#endif
 
 	extern char* adriLogger_buffer1;
 
