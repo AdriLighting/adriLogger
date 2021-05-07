@@ -74,6 +74,14 @@
 // endregion >>>> 
 
 
+    #if defined(ESP8266)
+        #define FILESYSTEM LittleFS
+    #elif defined(ESP32)
+        #define FILESYSTEM SPIFFS
+    #else
+    #endif
+
+
 #include "adri_logger.h"
 #include <adri_tools_v2.h>
 
@@ -823,6 +831,7 @@ void adriToolsLogger::printer_serial(boolean addLine, int region, int lvl, Strin
 
 // region ################################################ printer line
 void esp_log_print_lines(boolean addLine, int region, int lvl, int mod, String pLine, String func, String var, const char *tag){
+    
 adriToolsLogger * _looger = adriToolsLogger_ptrGet();
 String      pTag        = String(tag);
 int         searchCR    = 0;
@@ -1059,7 +1068,7 @@ void adriToolsLogger::spiff_get(String & ret){
 
     String lines = "";
 
-    File file = LittleFS.open(spiff_folder+"/"+spiff_fileName, "r");
+    File file = FILESYSTEM.open(spiff_folder+"/"+spiff_fileName, "r");
 
     if (file) {
         while (file.position()<file.size()) {
@@ -1087,7 +1096,7 @@ void adriToolsLogger::spiff_get(String & ret){
 void adriToolsLogger::spiff_addLine(String result){
     // String old;
     // spiff_get(old);
-    File file = LittleFS.open(spiff_folder+"/"+spiff_fileName, "a");
+    File file = FILESYSTEM.open(spiff_folder+"/"+spiff_fileName, "a");
     file.println(result);
     file.close();
 
@@ -1107,7 +1116,7 @@ void adriToolsLogger::spiff_readCurrent(){
     char buffer[512];
     String print = "";
     int nbr = 0;
-    File file = LittleFS.open(spiff_folder+"/"+spiff_fileName, "r");
+    File file = FILESYSTEM.open(spiff_folder+"/"+spiff_fileName, "r");
     if (file) {
         while (file.position()<file.size()) {
             String xml = file.readStringUntil('\n');
@@ -1133,7 +1142,7 @@ void adriToolsLogger::spiff_readCurrent(){
  *
  */
 void adriToolsLogger::spiff_removeCurrent(){
-    LittleFS.remove(spiff_folder+"/"+spiff_fileName);
+    FILESYSTEM.remove(spiff_folder+"/"+spiff_fileName);
 }
     
 // endregion >>>> SPIFF
